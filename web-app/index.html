@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rave Clip</title>
+<meta name="theme-color" content="#F7EEDD" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1d1518" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Rave Clip">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-512.png">
+<link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <img src="icon-192.png" alt="" class="logo">
+    <div>
+      <div class="kicker">Rave Clip</div>
+      <h1 id="viewTitle">Create</h1>
+    </div>
+  </div>
+  <button id="pill" class="pill" aria-label="Clip connection">
+    <span id="pillDot" class="dot"></span><span id="pillText">Connect</span>
+  </button>
+</header>
+
+<main>
+  <p id="unsupported" class="notice" hidden>
+    This browser can't use Bluetooth. On iPhone, open this page in the free
+    <b>Bluefy</b> app. On Android or a laptop, use Chrome.
+  </p>
+
+  <div class="nowbar"><span class="nowlabel">On your clip</span><b id="nowShowing">bunny face</b></div>
+
+  <!-- ============ CREATE (AI) ============ -->
+  <section class="view" data-view="create" data-title="Create">
+    <div class="seg" role="tablist">
+      <button data-mode="design" type="button">🎛 Design</button>
+      <button data-mode="ai" type="button">✨ AI</button>
+    </div>
+
+    <div id="modeDesign">
+      <div class="device">
+        <div class="bezel"><canvas id="sceneCanvas" class="preview" width="320" height="170"></canvas></div>
+      </div>
+
+      <div class="prompt">
+        <input id="scText" placeholder="Words on your clip…" maxlength="24" autocomplete="off" aria-label="Words on your clip">
+      </div>
+      <div id="scStatus" class="status-line"></div>
+
+      <div class="actions">
+        <button id="scSend" class="primary" type="button">Show on my clip</button>
+        <button id="scSave" class="ghost" type="button">♡ Save</button>
+      </div>
+
+      <h2 id="scSavedTitle" hidden>My scenes</h2>
+      <div id="scSaved" class="chips"></div>
+
+      <h2>Quick starts</h2>
+      <div id="scPresets" class="chips"></div>
+
+      <div class="card controls">
+        <div class="ctl"><div class="label">Effect</div><div id="scFx" class="chips"></div></div>
+        <div class="ctl"><div class="label">Speed</div><div id="scSp" class="chips"></div></div>
+        <div class="ctl"><div class="label">Letters</div><div id="scSt" class="chips"></div></div>
+        <div class="ctl"><div class="label">Letter color</div><div id="scFg" class="swatches"></div></div>
+        <div class="ctl"><div class="label">Shadow / bubble color</div><div id="scAc" class="swatches"></div></div>
+        <div class="ctl"><div class="label">Background</div><div id="scBp" class="chips"></div></div>
+        <div class="ctl"><div class="label">Background color</div><div id="scBg" class="swatches"></div></div>
+        <div class="ctl"><div class="label">Pattern color</div><div id="scB2" class="swatches"></div></div>
+        <div class="ctl"><div class="label">Mini me</div><div id="scAv" class="chips"></div></div>
+        <div class="ctl"><div class="label">Mini me hair</div><div id="scHr" class="chips"></div></div>
+      </div>
+      <p class="hint">Invert flash is capped at 3 flashes a second, so it's safe for people around you.</p>
+    </div>
+
+    <div id="modeAI" hidden>
+    <div class="device">
+      <div class="bezel">
+        <canvas id="aiCanvas" class="preview" width="320" height="170"></canvas>
+        <div id="aiEmpty" class="empty-screen">
+          <span class="pixel">type a vibe ✦</span>
+        </div>
+      </div>
+    </div>
+
+    <form id="aiForm" class="prompt">
+      <input id="aiInput" placeholder="pink bunny with hearts…" maxlength="80" autocomplete="off" enterkeyhint="go" aria-label="Describe your look">
+      <button type="submit" class="go" aria-label="Make it">✦</button>
+    </form>
+    <div id="aiStatus" class="status-line">A tiny AI runs right on your phone. No signal needed once it's loaded.</div>
+
+    <ul id="aiWhy" class="why"></ul>
+
+    <div class="actions">
+      <button id="aiSend" class="primary" hidden>Show on my clip</button>
+      <button id="aiSave" class="ghost" hidden>♡ Save</button>
+      <button id="aiEdit" class="ghost" hidden>🎛 Edit</button>
+    </div>
+
+    <h2 id="aiSavedTitle" hidden>My looks</h2>
+    <div id="aiSaved" class="chips"></div>
+
+    <h2>Try one</h2>
+    <div id="aiIdeas" class="chips"></div>
+    <p id="aiHint" class="hint">Put words in quotes to show them, like <i>heart saying "I LOVE ROZ"</i>.</p>
+    </div>
+  </section>
+
+  <!-- ============ FESTIVAL ============ -->
+  <section class="view" data-view="festival" data-title="Festival" hidden>
+    <div class="card">
+      <div class="label">Your festival</div>
+      <div id="festName" class="fest-name">No schedule yet</div>
+      <div class="row">
+        <button id="pickBtn" class="soft">Choose</button>
+        <label class="soft button">Upload<input id="fileInput" class="sr" type="file" accept=".csv,.json,.txt,text/csv,application/json"></label>
+      </div>
+      <div id="pickList" class="pick" hidden></div>
+      <p class="hint">Make your own with the <a href="schedule-template.csv" download>spreadsheet template</a>.</p>
+    </div>
+
+    <div id="festBody" hidden>
+      <h2>I'm at</h2>
+      <div id="stages" class="chips"></div>
+
+      <div class="card list">
+        <label class="toggle">
+          <span class="tlabel"><b>Auto-switch</b><small>Follows set times, even with your phone locked</small></span>
+          <input id="autoToggle" type="checkbox">
+          <span class="track"><span class="knob"></span></span>
+        </label>
+        <div id="nowNext" class="nownext"></div>
+        <label class="toggle">
+          <span class="tlabel"><b>Pick my stage by location</b><small>Switches when you walk to another stage</small></span>
+          <input id="locToggle" type="checkbox">
+          <span class="track"><span class="knob"></span></span>
+        </label>
+        <div id="locInfo" class="nownext"></div>
+        <button id="saveSpotBtn" class="soft small">📍 I'm at <b id="saveSpotName"></b>, save this spot</button>
+      </div>
+
+      <h2>Lineup</h2>
+      <ol id="lineup" class="lineup card"></ol>
+    </div>
+  </section>
+
+  <!-- ============ CLIP ============ -->
+  <section class="view" data-view="clip" data-title="My clip" hidden>
+    <div class="card connect-card">
+      <img src="icon-192.png" alt="" class="big-bunny">
+      <div class="status">
+        <span id="dot" class="dot"></span>
+        <span id="statusText">Not connected</span>
+      </div>
+      <button id="connectBtn" class="primary">Connect to my clip</button>
+    </div>
+
+    <h2>Tap to show</h2>
+    <div id="artists" class="grid"></div>
+    <form id="addForm" class="prompt small-prompt">
+      <input id="addInput" placeholder="Add an artist…" maxlength="40" autocomplete="off" aria-label="Add an artist">
+      <button type="submit" class="go" aria-label="Add">+</button>
+    </form>
+    <p class="hint">Tapping an artist turns auto-switch off. Press and hold an artist to remove it.</p>
+  </section>
+</main>
+
+<nav class="tabbar" aria-label="Sections">
+  <button data-tab="create" class="tab">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5l-2.2-6.3L3.5 10l6.3-1.7z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg>
+    <span>Create</span>
+  </button>
+  <button data-tab="festival" class="tab">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L2 20h20L12 2zm0 5.5l3.2 6.5h-6.4L12 7.5zM6 18l2-4h8l2 4H6z"/></svg>
+    <span>Festival</span>
+  </button>
+  <button data-tab="clip" class="tab">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2c1.4 0 2 1.8 2 4.5V8h4V6.5C14 3.8 14.6 2 16 2s2 2 2 4.5c0 1.5-.4 2.9-.9 3.9A7 7 0 0 1 19 15c0 4-3.1 7-7 7s-7-3-7-7c0-1.8.7-3.4 1.9-4.6-.5-1-.9-2.4-.9-3.9C6 4 6.6 2 8 2zm1.5 11.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4zm5 0a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg>
+    <span>Clip</span>
+  </button>
+</nav>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

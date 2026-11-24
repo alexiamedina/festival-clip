@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
+Thumbs.db
+# trained model + generated datasets (rebuild with the scripts)
+*.bin
+*.onnx
+*.npz
+ai/dataset/captions.jsonl
+# zipped bundles
+*.zip
+# personal-use only
+*lyric*
+*.lrc
+mic-test.html
